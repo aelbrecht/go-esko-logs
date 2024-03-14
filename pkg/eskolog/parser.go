@@ -14,15 +14,15 @@ var DefaultGroupName = "Default"
 var uniqueGroupIndex = 0
 
 type Collection struct {
-	Sessions []*Session
+	Sessions []*Session `json:"sessions"`
 }
 
 type Group struct {
-	Index      int
-	Name       string
-	Compounds  []*eskogeom.Compound
-	Messages   []*LogEntry
-	Partitions int
+	Index      int                  `json:"index"`
+	Name       string               `json:"name"`
+	Compounds  []*eskogeom.Compound `json:"compounds"`
+	Messages   []*LogEntry          `json:"messages"`
+	Partitions int                  `json:"partitions"`
 }
 
 func (l *Group) AddCompound(compound *eskogeom.Compound) {
@@ -34,10 +34,10 @@ func (l *Group) AddMessage(message *LogEntry) {
 }
 
 type Session struct {
-	Bounds     eskogeom.Rectangle
-	HasBounds  bool
-	Groups     map[string]*Group
-	Attributes map[string]map[string]string
+	Bounds     eskogeom.Rectangle           `json:"bounds"`
+	HasBounds  bool                         `json:"hasBounds"`
+	Groups     map[string]*Group            `json:"groups"`
+	Attributes map[string]map[string]string `json:"attributes"`
 }
 
 func (p *Session) OrderedGroups() []*Group {

@@ -10,10 +10,10 @@ import (
 )
 
 type LogEntry struct {
-	Timestamp int64
-	Time      int64
-	Body      string
-	Meta      map[string]string
+	Timestamp int64             `json:"ts"`
+	Time      int64             `json:"time"`
+	Body      string            `json:"body"`
+	Meta      map[string]string `json:"metaData"`
 }
 
 type ParserOptions struct {

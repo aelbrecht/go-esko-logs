@@ -1,8 +1,9 @@
 package eskogeom
 
 type Rectangle struct {
-	Origin        Point
-	Width, Height float64
+	Origin Point   `json:"origin"`
+	Width  float64 `json:"width"`
+	Height float64 `json:"height"`
 }
 
 func (r Rectangle) Contains(p Point) bool {
@@ -61,13 +62,13 @@ func (v Vector) Mul(scalar float64) Vector {
 }
 
 type Vector struct {
-	X float64
-	Y float64
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
 }
 
 type Transformation struct {
-	Scale Vector
-	Move  Point
+	Scale Vector `json:"scale"`
+	Move  Point  `json:"move"`
 }
 
 func (t Transformation) Compose(o Transformation) Transformation {
@@ -108,7 +109,8 @@ func (v Vector) Invert() Vector {
 }
 
 type Point struct {
-	X, Y float64
+	X float64 `json:"x"`
+	Y float64 `json:"y"`
 }
 
 func Origin() Point {
@@ -147,21 +149,24 @@ func (p Point) ToFloat32() (float32, float32) {
 }
 
 type Quad struct {
-	C, P Point
+	C Point `json:"c"`
+	P Point `json:"p"`
 }
 
 type Cubic struct {
-	C1, C2, P Point
+	C1 Point `json:"c1"`
+	C2 Point `json:"c2"`
+	P  Point `json:"p"`
 }
 
 type Path struct {
-	MoveTo Point
-	Points []interface{}
-	Closed bool
+	MoveTo Point         `json:"moveTo"`
+	Points []interface{} `json:"points"`
+	Closed bool          `json:"isClosed"`
 }
 
 type Compound struct {
-	Index    int
-	SubPaths []Path
-	MetaData map[string]string
+	Index    int               `json:"index"`
+	SubPaths []Path            `json:"paths"`
+	MetaData map[string]string `json:"metaData"`
 }
