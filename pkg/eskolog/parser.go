@@ -34,6 +34,7 @@ func (l *Group) AddMessage(message *LogEntry) {
 }
 
 type Session struct {
+	Title      string                       `json:"title"`
 	Bounds     eskogeom.Rectangle           `json:"bounds"`
 	HasBounds  bool                         `json:"hasBounds"`
 	Groups     map[string]*Group            `json:"groups"`
@@ -91,8 +92,9 @@ func (p *Session) updateBounds(point eskogeom.Point) {
 	}
 }
 
-func NewSession() *Session {
+func NewSession(title string) *Session {
 	return &Session{
+		Title:      title,
 		Groups:     map[string]*Group{},
 		Attributes: make(map[string]map[string]string),
 	}
@@ -104,10 +106,14 @@ func ParseCollection(entries []LogEntry) *Collection {
 	}
 	for _, entry := range entries {
 		if entry.Body == "init" {
-			doc.Sessions = append(doc.Sessions, NewSession())
+			if t, ok := entry.Meta["Title"]; ok {
+				doc.Sessions = append(doc.Sessions, NewSession(t))
+			} else {
+				doc.Sessions = append(doc.Sessions, NewSession("Untitled"))
+			}
 		} else {
 			if len(doc.Sessions) == 0 {
-				doc.Sessions = append(doc.Sessions, NewSession())
+				doc.Sessions = append(doc.Sessions, NewSession("Untitled"))
 			}
 			doc.Sessions[len(doc.Sessions)-1].parse(entry)
 		}
