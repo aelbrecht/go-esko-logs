@@ -199,22 +199,25 @@ func (p *Session) parse(entry LogEntry) {
 				// Check if either vs or value contains a comma
 				if strings.Contains(vs, ",") || strings.Contains(value, ",") {
 					uniqueValues := make(map[string]bool)
+					combinedValues := make([]string, 0)
 
 					// Add existing values to the set
 					for _, v := range strings.Split(vs, ",") {
-						uniqueValues[v] = true
+						if _, exists := uniqueValues[v]; !exists {
+							uniqueValues[v] = true
+							combinedValues = append(combinedValues, v)
+						}
 					}
 
 					// Add new values to the set, checking for duplicates
 					for _, v := range strings.Split(value, ",") {
-						uniqueValues[v] = true
+						if _, exists := uniqueValues[v]; !exists {
+							uniqueValues[v] = true
+							combinedValues = append(combinedValues, v)
+						}
 					}
 
 					// Combine unique values into a single string
-					var combinedValues []string
-					for v := range uniqueValues {
-						combinedValues = append(combinedValues, v)
-					}
 					attributes[key] = strings.Join(combinedValues, ",")
 				} else if vs != value {
 					// If neither vs nor value contains a comma, and they are different, append them

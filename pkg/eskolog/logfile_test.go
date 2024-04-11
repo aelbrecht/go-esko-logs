@@ -20,7 +20,7 @@ func TestLogParsing(t *testing.T) {
 		t.Error(err)
 	}
 
-	if len(data) != 126 {
-		t.Errorf("expected %d entries but got %d", 126, len(data))
+	if len(data) != 150 {
+		t.Errorf("expected %d entries but got %d", 150, len(data))
 	}
 }
